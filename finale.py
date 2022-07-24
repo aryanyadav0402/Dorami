@@ -45,6 +45,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import LinearSVC
 import sklearn
 import contextlib
+from contextlib import contextmanager
+import sys, os
 
 #QnA
 from sentence_transformers import SentenceTransformer
@@ -298,9 +300,16 @@ latest = tf.train.latest_checkpoint(checkpoint_dir)
 
 # In[59]:
 
-
-
-with contextlib.redirect_stdout(None):
+@contextmanager
+def suppress_stdout():
+    with open(os.devnull, "w") as devnull:
+        old_stdout = sys.stdout
+        sys.stdout = devnull
+        try:  
+            yield
+        finally:
+            sys.stdout = old_stdout
+with suppress_stdout():
     nn4_small2_train.load_weights(latest)
 
 
