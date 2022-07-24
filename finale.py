@@ -44,6 +44,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import LinearSVC
 import sklearn
+import contextlib
 
 #QnA
 from sentence_transformers import SentenceTransformer
@@ -298,7 +299,9 @@ latest = tf.train.latest_checkpoint(checkpoint_dir)
 # In[59]:
 
 
-nn4_small2_train.load_weights(latest)
+
+with contextlib.redirect_stdout(None):
+    nn4_small2_train.load_weights(latest)
 
 
 # In[60]:
